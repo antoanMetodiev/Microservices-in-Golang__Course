@@ -8,7 +8,7 @@ import (
 	"github.com/go-chi/cors"
 )
 
-func (app *Config) router() http.Handler {
+func (app *Config) routes() http.Handler {
 	router := chi.NewRouter()
 
 	router.Use(cors.Handler(cors.Options{
