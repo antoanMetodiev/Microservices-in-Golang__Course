@@ -23,8 +23,12 @@ func (app *Config) routes() http.Handler {
 
 	// useful for healthchecks when deploying!
 	router.Use(middleware.Heartbeat("/ping"))
-
-	router.Get("/", app.GetBroker)
+	app.declareRoutes(router)
 
 	return router
+}
+
+func (app *Config) declareRoutes(router *chi.Mux) {
+	router.Post("/authenticate", app.Authenticate)
+
 }

@@ -21,6 +21,11 @@ func (app *Config) routes() http.Handler {
 	}))
 
 	router.Use(middleware.Heartbeat("/ping"))
+	declareRoutes(router, app)
 
 	return router
+}
+
+func declareRoutes(router *chi.Mux, app *Config) {
+	router.Post("/authenticate", app.Authenticate)
 }

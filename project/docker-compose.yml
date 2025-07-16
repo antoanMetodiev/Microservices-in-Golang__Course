@@ -8,5 +8,31 @@ services:
     ports:
       - "8080:80"
     deploy:
-     mode: replicated
-     replicas: 1
+      mode: replicated
+      replicas: 1
+  postgres:
+    image: 'postgres:14.2'
+    ports:
+      - "5432:5432"
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: users
+    volumes:
+      - ./db-data/postgres/:/var/lib/postgresql/data/
+
+  auth-service:
+    build:
+      context: ./../auth-service
+      dockerfile: ./../auth-service/Dockerfile
+    restart: always
+    ports:
+      - "8081:8081"
+    deploy:
+      mode: replicated
+      replicas: 1
+    depends_on:
+    - postgres
